@@ -57,8 +57,8 @@ def test_create_booking_empty_payload(api_client):
             api_client.create_booking({})
 
 def test_create_booking_invalid_response_structure(api_client, mocker, generate_random_booking_data):
-    mock_response = {"wrong": "structure"}
-    mocker.patch.object(api_client, "create_booking", return_value=mock_response)
+    booking_data = {"wrong": "structure"}
 
-    with pytest.raises(ValidationError):
-        BookingResponse(**mock_response)
+    with allure.step("Send invalid JSON"):
+        with pytest.raises(requests.HTTPError):
+            api_client.create_booking(booking_data)
