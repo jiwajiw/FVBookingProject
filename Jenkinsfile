@@ -10,7 +10,8 @@ pipeline {
                 sh '. venv/bin/activate'
 
                 // Установка зависимостей из requirements.txt
-                sh 'pip install -r requirements.txt --break-system-packages'
+                sh 'venv/bin/pip install -r requirements.txt --break-system-packages'
+
             }
         }
 
