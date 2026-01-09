@@ -15,6 +15,11 @@ pipeline {
         )
     }
 
+    environment {
+        ENVIRONMENT = "${params.ENVIRONMENT.toLowerCase()}"
+        PRODUCTION_BASE_URL = "${params.PRODUCTION_BASE_URL}"
+    }
+
     stages {
 
         stage('Setup Python Environment') {
@@ -30,8 +35,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
-                    export ENVIRONMENT="${params.ENVIRONMENT}"
-                    export PRODUCTION_BASE_URL="${params.PRODUCTION_BASE_URL}"
+                    echo "ENVIRONMENT=$ENVIRONMENT"
+                    echo "PRODUCTION_BASE_URL=$PRODUCTION_BASE_URL"
 
                     venv/bin/python -m pytest --alluredir=allure-results || true
                 '''
@@ -51,6 +56,7 @@ pipeline {
         }
     }
 }
+
 
 
 
