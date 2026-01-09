@@ -1,6 +1,25 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['test', 'production'],
+            description: 'Target environment'
+        )
+
+        string(
+            name: 'PRODUCTION_BASE_URL',
+            defaultValue: 'https://restful-booker.herokuapp.com/',
+            description: 'Base URL for production environment'
+        )
+    }
+
+    environment {
+        ENVIRONMENT = "${params.ENVIRONMENT.toLowerCase()}"
+        PRODUCTION_BASE_URL = "${params.PRODUCTION_BASE_URL}"
+    }
+
     stages {
 
         stage('Setup Python Environment') {
@@ -42,3 +61,4 @@ pipeline {
         }
     }
 }
+
